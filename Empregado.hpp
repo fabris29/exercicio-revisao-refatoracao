@@ -4,25 +4,28 @@
 #include <iostream>
 #include <string>
 
-class Empregado {
-	
-  public:
-    double salarioHora;  
-    double quotaMensalVendas;  
-
-
-    double pagamentoMes(double horasTrabalhadas) {
- 
-      double t = horasTrabalhadas;
-	  
-	  //Cálculo de hora extra (+50% se horasTrabalhadas > 8)
-      if (horasTrabalhadas > 8) {
-        double x = horasTrabalhadas - 8;
-        t += x / 2;
-      }
-	  return t * salarioHora;
-    }
-	
+class Empregado {	
+    public: 
+        virtual void get(){
+            std::cout << "Nome: " << nome << std::endl;
+            std::cout << "Salario Mes: "<< pagamentoMes() << std::endl;
+        };
+        double horaAdicional (double horasTrabalhadas){
+            return ( horasTrabalhadas - limitHoras ) / ( 2 );
+        }
+        double pagamentoMes() { 
+            bool horaExtra = (horasTrabalhadas > limitHoras); 
+	          if ( horaExtra == true ) {
+                return ( ( horasTrabalhadas + horaAdicional( horasTrabalhadas ) ) * salarioHora );
+            }
+            else{
+                return ( horasTrabalhadas * salarioHora );
+            }
+        }	
+    protected:
+        double salarioHora;
+        const int limitHoras = 8;
+        std::string nome;
+        double horasTrabalhadas;
 };
-
 #endif
